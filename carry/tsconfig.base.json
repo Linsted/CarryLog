@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@carry/interfaces": ["libs/interfaces/src/index.ts"]
+      "@carry/interfaces": ["libs/interfaces/src/index.ts"],
+      "@carry/constants": ["libs/constants/src/index.ts"],
     }
   },
   "exclude": ["node_modules", "tmp"]
