@@ -1,6 +1,7 @@
 import { USER_ROLES } from '@carry/constants';
+import { IUser } from '@carry/interfaces';
 
-export interface IUser {
+export class UserEntity implements IUser {
   _id: string;
   displayName?: string;
   email: string;
