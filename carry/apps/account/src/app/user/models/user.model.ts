@@ -15,11 +15,8 @@ export class User extends Document implements IUser {
   @Prop({ required: true })
   email: string;
 
-  @Prop({ required: true, select: false })
-  passwordHash: string;
-
   @Prop({
-    required: true,
+    required: false,
     enum: USER_ROLES,
     type: String,
     default: USER_ROLES.CLIENT,

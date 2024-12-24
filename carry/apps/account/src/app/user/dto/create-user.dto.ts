@@ -8,9 +8,6 @@ export class CreateUserDto {
   @IsEmail()
   email: string;
 
-  @IsNotEmpty()
-  passwordHash: string;
-
   @IsEnum(USER_ROLES)
   role: USER_ROLES;
 }
