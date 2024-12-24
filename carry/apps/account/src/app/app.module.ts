@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { PassportModule } from '@nestjs/passport';
 
 import { ENV_PATHS } from '@carry/constants';
 
@@ -17,6 +18,7 @@ import { getMongoConfig } from './configs/mongo.config';
       envFilePath: ENV_PATHS.ACCOUNT_SERViCE,
     }),
     MongooseModule.forRootAsync(getMongoConfig()),
+    PassportModule.register({ session: true }),
   ],
   controllers: [],
   providers: [],

@@ -7,3 +7,10 @@ export enum USER_ROLES {
   ADMIN = 'Admin',
   EMPLOYEE = 'Employee',
 }
+
+export enum ENVIRONMENT {
+  PROD = 'production',
+  DEV = 'development',
+}
+
+export const GLOBAL_PREFIX = 'api';
