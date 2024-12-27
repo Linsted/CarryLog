@@ -1,7 +1,10 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { Response, Request } from 'express';
 
+import { USER_ROLES } from '@carry/constants';
+
 import { Auth0Guard, AuthenticatedGuard } from './guards/auth.guard';
+import { Roles } from './decorators/roles.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -20,6 +23,7 @@ export class AuthController {
   }
 
   @Get('status')
+  @Roles(USER_ROLES.ADMIN)
   @UseGuards(AuthenticatedGuard)
   status(@Res() res: Response) {
     res.sendStatus(200);
