@@ -8,6 +8,7 @@ import { GLOBAL_PREFIX } from '@carry/constants';
 
 import { AppModule } from './app/app.module';
 import { getSessionConfig } from './app/configs/mongo.config';
+import { getValidationConfig } from './app/configs/validation.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,7 +19,7 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
   app.setGlobalPrefix(GLOBAL_PREFIX);
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe(getValidationConfig()));
 
   const port = process.env.PORT || 3000;
 
