@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { UserRepository } from './providers/user.repository';
 import { CreateUserDto } from './dto/create-user.dto';
+import { ChangeRoleDto } from './dto/change-role.dto';
 
 @Injectable()
 export class UserService {
@@ -17,5 +18,9 @@ export class UserService {
 
   public async getOneUserByEmail(email: string) {
     return await this.userRepository.getUserByEmail(email);
+  }
+
+  public async changeUserRole(changeRoleDto: ChangeRoleDto) {
+    return await this.userRepository.changeUserRole(changeRoleDto);
   }
 }

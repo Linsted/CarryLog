@@ -9,6 +9,7 @@ import { IUserAuth0 } from '../utils/userAuth0.interface';
 @Injectable()
 export class AuthService {
   constructor(private readonly userService: UserService) {}
+
   async validateUser(userDetails: IUserAuth0) {
     const user = await this.userService.getOneUserByEmail(userDetails.email);
     if (user) return user;
