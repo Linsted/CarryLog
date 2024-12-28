@@ -1,10 +1,16 @@
 import { InjectModel } from '@nestjs/mongoose';
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { Model } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
 import { User } from '../models/user.model';
 import { CreateUserDto } from '../dto/create-user.dto';
+import { ChangeRoleDto } from '../dto/change-role.dto';
 
 @Injectable()
 export class UserRepository {
@@ -38,11 +44,35 @@ export class UserRepository {
     }
   }
 
-  async getUserByEmail(email: string) {
+  async getUserByEmail(email: string): Promise<User> {
     try {
       return await this.userModel.findOne({ email }).exec();
     } catch (error) {
       throw new InternalServerErrorException('Failed to find user', {
+        description: error?.message,
+      });
+    }
+  }
+
+  async changeUserRole({ email, role }: ChangeRoleDto): Promise<User> {
+    if (!role) {
+      throw new BadRequestException('Role is not provided');
+    }
+
+    try {
+      const updatedUser = await this.userModel.findOneAndUpdate(
+        { email },
+        { role },
+        { new: true, runValidators: true }
+      );
+
+      if (!updatedUser) {
+        throw new NotFoundException('User not found!');
+      }
+
+      return updatedUser.toObject();
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to update role', {
         description: error?.message,
       });
     }
