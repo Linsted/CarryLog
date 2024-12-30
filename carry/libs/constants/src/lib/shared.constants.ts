@@ -1,5 +1,6 @@
 export enum ENV_PATHS {
-  ACCOUNT_SERViCE = 'envs/.account.env',
+  ACCOUNT_SERVICE = 'envs/.account.env',
+  ORDER_SERVICE = 'envs/.order.env',
 }
 
 export enum USER_ROLES {

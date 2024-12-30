@@ -15,7 +15,7 @@ import { getMongoConfig } from './configs/mongo.config';
     AuthModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ENV_PATHS.ACCOUNT_SERViCE,
+      envFilePath: ENV_PATHS.ACCOUNT_SERVICE,
     }),
     MongooseModule.forRootAsync(getMongoConfig()),
     PassportModule.register({ session: true }),
