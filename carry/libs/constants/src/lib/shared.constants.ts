@@ -15,3 +15,7 @@ export enum ENVIRONMENT {
 }
 
 export const GLOBAL_PREFIX = 'api';
+
+export enum TIME {
+  ONE_DAY_IN_MS = 1000 * 60 * 60 * 24,
+}
