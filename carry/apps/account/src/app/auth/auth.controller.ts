@@ -37,10 +37,4 @@ export class AuthController {
   status(@Res() res: Response) {
     res.sendStatus(200);
   }
-
-  @Post('validate-session')
-  checkSession(@Req() req: Request) {
-    console.log(req?.user);
-    return req?.user;
-  }
 }
