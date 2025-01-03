@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently --kill-others-on-fail -n \"DOCKER-ACCOUNT,ACCOUNT,ORDER\" -c \"blue,green,yellow\" \"cd apps/account && docker-compose up\" \"nx serve account\" \"nx serve order\""
+    "dev": "concurrently --kill-others-on-fail -n \"DOCKER-ACCOUNT,ACCOUNT,ORDER\" -c \"blue,green,yellow\" \"cd apps/account && docker-compose up 2>&1 | grep -i 'error'\" \"nx serve account --watch\" \"nx serve order --watch\""
   },
   "private": true,
   "dependencies": {
