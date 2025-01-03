@@ -10,9 +10,6 @@ services:
       - mongo_data:/data/db
     env_file:
       - ../../envs/.account.env
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_LOGIN}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
 
 volumes:
   mongo_data:

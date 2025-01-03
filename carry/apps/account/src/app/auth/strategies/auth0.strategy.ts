@@ -28,6 +28,8 @@ export class Auth0Strategy extends PassportStrategy(Strategy, 'auth0') {
 
     const userDetails = <IUserAuth0>{ displayName, email };
 
-    return await this.authService.validateUser(userDetails);
+    const user = await this.authService.validateUser(userDetails);
+
+    return { ...user, token: profile.id_token };
   }
 }

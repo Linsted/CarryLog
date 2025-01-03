@@ -21,7 +21,7 @@ async function bootstrap() {
   app.setGlobalPrefix(GLOBAL_PREFIX);
   app.useGlobalPipes(new ValidationPipe(getValidationConfig()));
 
-  const port = process.env.PORT || 3000;
+  const port = process.env.ACCOUNT_PORT || 3000;
 
   await app.listen(port);
   Logger.log(

@@ -1,5 +1,6 @@
 export enum ENV_PATHS {
-  ACCOUNT_SERViCE = 'envs/.account.env',
+  ACCOUNT_SERVICE = 'envs/.account.env',
+  ORDER_SERVICE = 'envs/.order.env',
 }
 
 export enum USER_ROLES {
@@ -14,3 +15,7 @@ export enum ENVIRONMENT {
 }
 
 export const GLOBAL_PREFIX = 'api';
+
+export enum TIME {
+  ONE_DAY_IN_MS = 1000 * 60 * 60 * 24,
+}
