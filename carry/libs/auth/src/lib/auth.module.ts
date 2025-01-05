@@ -16,7 +16,7 @@ import { getRedisConfig } from './config/redis.config';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: [ENV_PATHS.ACCOUNT_SERVICE, ENV_PATHS.REDIS],
+      envFilePath: [ENV_PATHS.REDIS],
     }),
     ScheduleModule.forRoot(),
     CacheModule.register(getRedisConfig()),
