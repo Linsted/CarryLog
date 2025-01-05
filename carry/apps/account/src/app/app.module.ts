@@ -4,10 +4,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
 
 import { ENV_PATHS } from '@carry/constants';
+import { getMongoConfig } from '@carry/helpers';
 
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
-import { getMongoConfig } from './configs/mongo.config';
 
 @Module({
   imports: [

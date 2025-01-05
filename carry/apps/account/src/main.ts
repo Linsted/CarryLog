@@ -5,17 +5,16 @@ import session from 'express-session';
 import passport from 'passport';
 
 import { GLOBAL_PREFIX } from '@carry/constants';
+import { getValidationConfig } from '@carry/helpers';
 
 import { AppModule } from './app/app.module';
 import { getSessionConfig } from './app/configs/mongo.config';
-import { getValidationConfig } from './app/configs/validation.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
 
   app.use(session(getSessionConfig(configService)));
-
   app.use(passport.initialize());
   app.use(passport.session());
   app.setGlobalPrefix(GLOBAL_PREFIX);
