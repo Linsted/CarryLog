@@ -18,6 +18,8 @@ import { CACHE_KEYS } from '@carry/constants';
 
 @Injectable()
 export class JwksService implements OnModuleInit {
+  private cachedJwks = <Record<string, string>>{};
+
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
 
   async onModuleInit() {
@@ -27,8 +29,22 @@ export class JwksService implements OnModuleInit {
   @Cron(CronExpression.EVERY_2_HOURS)
   async loadJWKS(): Promise<void> {
     const aut0Domain = process?.env?.AUTH0_DOMAIN || '';
+    const currentDate = new Date().toISOString();
 
-    const { data } = await axios.get<IJWKS>(getJwksString(aut0Domain));
+    let data: IJWKS;
+
+    try {
+      const response = await axios.get(getJwksString(aut0Domain));
+      data = response?.data;
+    } catch (error: any) {
+      console.error(
+        `Failed to get JWKS from Auth0 service at ${currentDate}`,
+        error
+      );
+      throw new InternalServerErrorException(
+        `Failed to get JWKS from Auth0 service. Error: ${error.message}`
+      );
+    }
 
     if (Array.isArray(data?.keys)) {
       const cachedJWKS = data?.keys.reduce<Record<string, string>>(
@@ -44,14 +60,13 @@ export class JwksService implements OnModuleInit {
         {}
       );
 
+      this.cachedJwks = cachedJWKS;
+
       try {
         await this.cacheManager.set(CACHE_KEYS.TOKEN, cachedJWKS);
       } catch (error: any) {
         console.error(
-          `Failed to set cache for key "${CACHE_KEYS.TOKEN}": ${error.message}`
-        );
-        throw new InternalServerErrorException(
-          `Failed to set cache for key "${CACHE_KEYS.TOKEN}"`
+          `Failed to set cache for key "${CACHE_KEYS.TOKEN}": ${error.message} in Redis`
         );
       }
     }
@@ -65,13 +80,19 @@ export class JwksService implements OnModuleInit {
         string,
         string
       >;
-    } catch (error: any) {
+    } catch {
+      cachedJWKS = this.cachedJwks;
       console.error(
-        `Failed to get cache for key "${CACHE_KEYS.TOKEN}": ${error.message}`
+        `Failed to get cache for key "${CACHE_KEYS.TOKEN}" from Redis`
       );
-      throw new InternalServerErrorException(
-        `Failed to get cache for key "${CACHE_KEYS.TOKEN}"`
-      );
+    }
+
+    if (!this.cachedJwks || Object.keys(this.cachedJwks).length === 0) {
+      await this.loadJWKS();
+    }
+
+    if (!cachedJWKS || Object.keys(cachedJWKS).length === 0) {
+      cachedJWKS = this.cachedJwks;
     }
 
     const pem = cachedJWKS[kid];

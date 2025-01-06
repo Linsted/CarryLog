@@ -12,3 +12,7 @@ value: connect.sid=s%3A1Uop1NQM_v1aa9Tx0atQWuA_BoNdZa9x.Aj997CYgTagqMED4%2FQcmdD
 ```sh
 nx g @nx/nest:lib libs/my-nest-lib
 ```
+## Delete all files related to docker-compose file: 
+```sh
+docker-compose --env-file ../../envs/.redis.env down --rmi all --volumes --remove-orphans
+```
