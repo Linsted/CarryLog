@@ -17,6 +17,8 @@
     "paths": {
       "@carry/auth": ["libs/auth/src/index.ts"],
       "@carry/constants": ["libs/constants/src/index.ts"],
+      "@carry/decorators": ["libs/decorators/src/index.ts"],
+      "@carry/helpers": ["libs/helpers/src/index.ts"],
       "@carry/interfaces": ["libs/interfaces/src/index.ts"]
     }
   },

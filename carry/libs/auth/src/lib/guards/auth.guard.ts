@@ -8,6 +8,7 @@ import { Request } from 'express';
 import jwt from 'jsonwebtoken';
 
 import { JwksService } from '../providers/jwks.service';
+import { COOKIE_TOKEN_PREFIXES } from '../constants/constants';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -35,7 +36,9 @@ export class AuthGuard implements CanActivate {
     const cookies = request.headers.cookie?.split(';');
 
     const [jwtToken] =
-      cookies?.filter((cookie) => cookie.startsWith(' token=')) || [];
+      cookies?.filter((cookie) =>
+        COOKIE_TOKEN_PREFIXES.some((prefix) => cookie.startsWith(prefix))
+      ) || [];
 
     if (jwtToken) {
       return jwtToken.split('=')[1];
@@ -44,7 +47,7 @@ export class AuthGuard implements CanActivate {
     return null;
   }
 
-  private validateToken(token: string) {
+  private async validateToken(token: string) {
     const decodedToken = jwt.decode(token, { complete: true });
 
     if (!decodedToken) {
@@ -56,8 +59,18 @@ export class AuthGuard implements CanActivate {
     if (!kid) {
       throw new UnauthorizedException('KID is missing');
     }
-    const pem = this.jwksService.getPemByKid(kid);
+    const pem = await this.jwksService.getPemByKid(kid);
 
-    return jwt.verify(token, pem, { algorithms: ['RS256'] });
+    try {
+      return jwt.verify(token, pem, { algorithms: ['RS256'] });
+    } catch (error) {
+      if (error instanceof jwt.TokenExpiredError) {
+        console.error('Token has expired', error);
+        throw new UnauthorizedException('Token has expired');
+      } else {
+        console.error('Token validation failed', error);
+        throw new UnauthorizedException('Token validation failed');
+      }
+    }
   }
 }
