@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { IOutboxMessage } from '@carry/interfaces';
 
 import { CreateOrderDto } from '../dto/create-order.dto';
 import { DeleteOrderDto } from '../dto/delete-order.dto';
@@ -7,16 +7,8 @@ interface IClientsEmail {
   clientsEmail: string;
 }
 
-export interface OutboxMessage {
-  routingKey: string;
-  exchange: string;
-  isPublished: boolean;
-  createdAt: Date;
-  _id?: Types.ObjectId;
-}
-
 export interface IExtendedCreateOrderDto extends IClientsEmail, CreateOrderDto {
-  outbox: OutboxMessage[];
+  outbox: IOutboxMessage[];
 }
 
 export interface IExtendedDeleteOrderDto

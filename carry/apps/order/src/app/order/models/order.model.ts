@@ -2,9 +2,7 @@ import { Document, Types } from 'mongoose';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 
 import { ORDER_STATUSES } from '@carry/constants';
-import { IOrder } from '@carry/interfaces';
-
-import { OutboxMessage } from '../interfaces/order.interface';
+import { IOrder, IOutboxMessage } from '@carry/interfaces';
 
 @Schema()
 export class Order extends Document implements IOrder {
@@ -52,7 +50,7 @@ export class Order extends Document implements IOrder {
       },
     ],
   })
-  outbox: OutboxMessage[];
+  outbox: IOutboxMessage[];
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);
