@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Types } from 'mongoose';
 
 import { OrderRepository } from './providers/order.repository';
 import {
@@ -16,5 +17,13 @@ export class OrderService {
 
   async deleteOrder(deleteOrderDto: IExtendedDeleteOrderDto) {
     return await this.orderRepository.deleteOrder(deleteOrderDto);
+  }
+
+  async getUnpublishedOrders() {
+    return await this.orderRepository.getUnpublishedOrders();
+  }
+
+  async markAsPublished(objectId: Types.ObjectId) {
+    return this.orderRepository.markAsPublished(objectId);
   }
 }

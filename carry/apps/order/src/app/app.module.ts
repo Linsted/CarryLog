@@ -3,9 +3,11 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
+import { RmqModule } from '@carry/rabbit-mq';
 import { CommonAuthModule } from '@carry/auth';
-import { OrderModule } from './order/order.module';
 import { getMongoConfig } from '@carry/helpers';
+
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -16,6 +18,7 @@ import { getMongoConfig } from '@carry/helpers';
     CommonAuthModule,
     OrderModule,
     MongooseModule.forRootAsync(getMongoConfig()),
+    RmqModule,
   ],
   controllers: [],
   providers: [],

@@ -1,5 +1,5 @@
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 import {
   BadRequestException,
@@ -53,6 +53,50 @@ export class OrderRepository {
       console.error('Error deleting order:', error.message);
 
       throw new InternalServerErrorException('Failed to delete order');
+    }
+  }
+
+  async getUnpublishedOrders(): Promise<Order[]> {
+    try {
+      const unpublishedMessages = await this.userModel.find({
+        'outbox.isPublished': false,
+      });
+      return unpublishedMessages;
+    } catch (error) {
+      console.error('Error fetching unpublished orders:', error);
+
+      throw new InternalServerErrorException(
+        'Error fetching unpublished orders:'
+      );
+    }
+  }
+
+  async markAsPublished(objectId: Types.ObjectId) {
+    try {
+      const result = await this.userModel.updateOne(
+        {
+          outbox: {
+            $elemMatch: {
+              _id: objectId,
+            },
+          },
+        },
+        {
+          $set: {
+            'outbox.$.isPublished': true,
+          },
+        }
+      );
+
+      if (result.matchedCount === 0) {
+        console.error('Outbox item not found');
+      }
+
+      console.log('Outbox item marked as published, outbox _id:', objectId);
+    } catch (error) {
+      console.error('Error mark order as published:', error);
+
+      throw new InternalServerErrorException('Error mark order as published:');
     }
   }
 }
