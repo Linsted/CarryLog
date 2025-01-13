@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently --kill-others-on-fail -n \"DOCKER-ACCOUNT,DOCKER-REDIS,DOCKER-ORDER,ACCOUNT,ORDER\" -c \"blue,cyan,blue,green,yellow\" \"cd apps/account && docker-compose up 2>&1 | grep -iE 'error|warning'\" \"cd libs/auth && docker-compose --env-file ../../envs/.redis.env up 2>&1 | grep -iE 'error|warning'\" \"cd apps/order && docker-compose up 2>&1 | grep -iE 'error|warning'\" \"nx serve account --watch\" \"nx serve order --watch\""
+    "dev": "scripts/dev.sh"
   },
   "private": true,
   "dependencies": {
+    "@golevelup/nestjs-rabbitmq": "^5.6.1",
     "@nestjs/cache-manager": "^2.3.0",
     "@nestjs/common": "^10.0.2",
     "@nestjs/config": "^3.3.0",
@@ -60,7 +61,7 @@
     "jest": "^29.7.0",
     "jest-environment-node": "^29.7.0",
     "nx": "20.1.4",
-    "prettier": "^2.6.2",
+    "prettier": "^2.8.8",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
     "tslib": "^2.3.0",

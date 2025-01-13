@@ -19,7 +19,8 @@
       "@carry/constants": ["libs/constants/src/index.ts"],
       "@carry/decorators": ["libs/decorators/src/index.ts"],
       "@carry/helpers": ["libs/helpers/src/index.ts"],
-      "@carry/interfaces": ["libs/interfaces/src/index.ts"]
+      "@carry/interfaces": ["libs/interfaces/src/index.ts"],
+      "@carry/rabbit-mq": ["libs/rabbit-mq/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

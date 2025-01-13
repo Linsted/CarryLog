@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 import { ORDER_STATUSES } from '@carry/constants';
 
 export interface IOrder {
@@ -8,4 +10,18 @@ export interface IOrder {
   unloadingDate: Date;
   price: number;
   description: string;
+  isOrderPaid?: boolean;
+}
+
+export interface IOutboxMessage {
+  routingKey: string;
+  exchange: string;
+  isPublished: boolean;
+  createdAt: Date;
+  _id?: Types.ObjectId;
+}
+
+export interface IOrderExpanded extends IOrder {
+  outbox: IOutboxMessage[];
+  __v: number;
 }

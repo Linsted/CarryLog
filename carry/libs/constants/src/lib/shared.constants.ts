@@ -2,6 +2,8 @@ export enum ENV_PATHS {
   ACCOUNT_SERVICE = 'envs/.account.env',
   ORDER_SERVICE = 'envs/.order.env',
   REDIS = 'envs/.redis.env',
+  RABBIT_MQ = 'envs/.rmq.env',
+  DELIVERY_SERVICE = 'envs/.delivery.env',
 }
 
 export enum USER_ROLES {
@@ -29,4 +31,20 @@ export enum ORDER_STATUSES {
   CANCELED = 'canceled',
   IN_PROGRESS = 'in_progress',
   FINISHED = 'finished',
+}
+
+export enum EXCHANGE_NAME {
+  ORDER = 'order-exchange',
+}
+
+export enum EXCHANGE_TYPE {
+  TOPIC = 'topic',
+}
+
+export enum ROUTING_KEY {
+  ORDER_CREATE = 'order.create',
+}
+
+export enum RMQ_QUEUE {
+  ORDER = 'order-queue',
 }

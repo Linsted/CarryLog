@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Post, Req } from '@nestjs/common';
 
 import { IRequestWithUserUnknown } from '@carry/interfaces';
 import { UserEmail } from '@carry/decorators';
+import { EXCHANGE_NAME, ROUTING_KEY } from '@carry/constants';
 
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -13,7 +14,7 @@ export class OrderController {
 
   @Get()
   getOrders(@Req() req: IRequestWithUserUnknown) {
-    return req.user;
+    return this.orderService.getUnpublishedOrders();
   }
 
   @Post()
@@ -24,6 +25,14 @@ export class OrderController {
     return this.orderService.createOrder({
       ...createOrderDto,
       clientsEmail: email,
+      outbox: [
+        {
+          routingKey: ROUTING_KEY.ORDER_CREATE,
+          exchange: EXCHANGE_NAME.ORDER,
+          isPublished: false,
+          createdAt: new Date(),
+        },
+      ],
     });
   }
 
