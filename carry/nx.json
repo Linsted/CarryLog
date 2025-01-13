@@ -39,7 +39,8 @@
       "exclude": [
         "apps/account-e2e/**/*",
         "apps/order-e2e/**/*",
-        "apps/delivery-e2e/**/*"
+        "apps/delivery-e2e/**/*",
+        "apps/payment-e2e/**/*"
       ]
     }
   ]
