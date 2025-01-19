@@ -158,11 +158,13 @@ export class StripeProvider implements PaymentProvider {
 
   async getInvoicePaymentLink(invoiceId: string): Promise<string> {
     try {
-      const invoiceLink = await this.stripeClient.invoices.retrieve(invoiceId);
+      const invoice = await this.stripeClient.invoices.retrieve(invoiceId);
 
-      if (!invoiceLink) {
+      if (!invoice || !invoice.hosted_invoice_url) {
         throw new BadRequestException('No stripe link');
       }
+
+      return invoice.hosted_invoice_url;
     } catch (error) {
       console.error('No stripe link', error);
       throw new InternalServerErrorException({
@@ -170,8 +172,5 @@ export class StripeProvider implements PaymentProvider {
         description: 'No stripe link',
       });
     }
-
-    const invoice = await this.stripeClient.invoices.retrieve(invoiceId);
-    return invoice.hosted_invoice_url;
   }
 }
