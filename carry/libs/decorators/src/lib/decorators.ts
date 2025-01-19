@@ -2,6 +2,7 @@ import {
   createParamDecorator,
   ExecutionContext,
   BadRequestException,
+  SetMetadata,
 } from '@nestjs/common';
 
 export const UserEmail = createParamDecorator(
@@ -19,3 +20,6 @@ export const UserEmail = createParamDecorator(
     return user.email;
   }
 );
+
+export const IS_PUBLIC_KEY = 'isPublic';
+export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);

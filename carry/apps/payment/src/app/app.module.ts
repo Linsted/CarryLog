@@ -1,8 +1,15 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+
+import { RmqModule } from '@carry/rabbit-mq';
+
+import { PaymentModule } from './payment/payment.module';
+import { GlobalLoggingMiddleware } from './payment/middlewares/log.middleware';
 
 @Module({
-  imports: [],
-  controllers: [],
-  providers: [],
+  imports: [PaymentModule, RmqModule],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(GlobalLoggingMiddleware).forRoutes('*');
+  }
+}

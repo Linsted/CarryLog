@@ -13,7 +13,7 @@ export class PublishService {
     console.log('AmqpConnection initialized:', !!this.amqpConnection);
   }
 
-  @Cron(CronExpression.EVERY_HOUR)
+  @Cron(CronExpression.EVERY_MINUTE)
   async publishMessages() {
     const unpublishedOrders = await this.orderService.getUnpublishedOrders();
 

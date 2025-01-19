@@ -4,17 +4,32 @@ import {
   ExecutionContext,
   UnauthorizedException,
 } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 import jwt from 'jsonwebtoken';
+
+import { IS_PUBLIC_KEY } from '@carry/decorators';
 
 import { JwksService } from '../providers/jwks.service';
 import { COOKIE_TOKEN_PREFIXES } from '../constants/constants';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private readonly jwksService: JwksService) {}
+  constructor(
+    private readonly jwksService: JwksService,
+    private readonly reflector: Reflector
+  ) {}
 
   canActivate(context: ExecutionContext): boolean {
+    const isPublic = this.reflector.get<boolean>(
+      IS_PUBLIC_KEY,
+      context.getHandler()
+    );
+
+    if (isPublic) {
+      return true;
+    }
+
     const request = context.switchToHttp().getRequest();
 
     const token = this.extractToken(request);
