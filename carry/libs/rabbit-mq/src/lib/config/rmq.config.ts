@@ -18,6 +18,13 @@ export function getRmqExchanges() {
         durable: true,
       },
     },
+    {
+      name: EXCHANGE_NAME.PAYMENT,
+      type: EXCHANGE_TYPE.TOPIC,
+      options: {
+        durable: true,
+      },
+    },
   ];
 }
 

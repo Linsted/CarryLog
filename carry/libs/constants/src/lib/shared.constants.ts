@@ -4,6 +4,7 @@ export enum ENV_PATHS {
   REDIS = 'envs/.redis.env',
   RABBIT_MQ = 'envs/.rmq.env',
   DELIVERY_SERVICE = 'envs/.delivery.env',
+  PAYMENT_SERVICE = 'envs/.payment.env',
 }
 
 export enum USER_ROLES {
@@ -35,6 +36,7 @@ export enum ORDER_STATUSES {
 
 export enum EXCHANGE_NAME {
   ORDER = 'order-exchange',
+  PAYMENT = 'payment-exchange',
 }
 
 export enum EXCHANGE_TYPE {
@@ -43,8 +45,18 @@ export enum EXCHANGE_TYPE {
 
 export enum ROUTING_KEY {
   ORDER_CREATE = 'order.create',
+  PAYMENT_SUCCESS = 'payment.success',
 }
 
 export enum RMQ_QUEUE {
   ORDER = 'order-queue',
+  PAYMENT = 'payment-queue',
+  DELIVERY = 'delivery-queue',
+  PAYMENT_ORDER_SUCCESS = 'payment-order-success',
 }
+
+export enum CURRENCY {
+  USD = 'usd',
+}
+
+export const PRODUCTS_QUANTITY = 1;

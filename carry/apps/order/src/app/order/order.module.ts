@@ -10,6 +10,7 @@ import { OrderService } from './order.service';
 import { OrderRepository } from './providers/order.repository';
 import { Order, OrderSchema } from './models/order.model';
 import { PublishService } from './providers/publish.service';
+import { SubscriberService } from './providers/subscriber.service';
 
 @Module({
   controllers: [OrderController],
@@ -21,6 +22,7 @@ import { PublishService } from './providers/publish.service';
     OrderService,
     OrderRepository,
     PublishService,
+    SubscriberService,
   ],
   exports: [],
   imports: [

@@ -9,7 +9,7 @@ export class MessagingService {
   @RabbitSubscribe({
     exchange: EXCHANGE_NAME.ORDER,
     routingKey: ROUTING_KEY.ORDER_CREATE,
-    queue: RMQ_QUEUE.ORDER,
+    queue: RMQ_QUEUE.DELIVERY,
   })
   public async pubSubHandler(msg: IOrderExpanded) {
     console.log(
