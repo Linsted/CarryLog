@@ -3,16 +3,10 @@ services:
     image: rabbitmq:4-management-alpine
     container_name: 'rabbitmq'
     ports:
-        - "${RMQ_PORT}:${RMQ_PORT}"
-        - "${RMQ_GUI_HOST}:${RMQ_GUI_HOST}"
+      - '${RMQ_PORT_CARRY}:${RMQ_PORT_CARRY}'
+      - '${RMQ_GUI_HOST_CARRY}:${RMQ_GUI_HOST_CARRY}'
     volumes:
-        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
     networks:
-        - rabbitmq_go_net
-    env_file:
-      - ../../envs/.rmq.env
-
-networks:
-  rabbitmq_go_net:
-    driver: bridge
+      - rabbitmq_go_net

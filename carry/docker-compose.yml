@@ -1,0 +1,109 @@
+services:
+  # ORDER SERVICE
+  order:
+    build:
+      context: .
+      dockerfile: ./apps/order/Dockerfile
+      target: development
+    command: nx serve order --watch
+    ports:
+      - '3001:3001'
+    volumes:
+      - .:/usr/src/app
+    networks:
+      - rabbitmq_go_net
+
+  # ACCOUNT SERVICE
+  account:
+    build:
+      context: .
+      dockerfile: ./apps/account/Dockerfile
+      target: development
+    command: nx serve account --watch
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/usr/src/app
+    networks:
+      - rabbitmq_go_net
+
+  # DELIVERY SERVICE
+  delivery:
+    build:
+      context: .
+      dockerfile: ./apps/delivery/Dockerfile
+      target: development
+    command: nx serve delivery --watch
+    ports:
+      - '3002:3002'
+    volumes:
+      - .:/usr/src/app
+    networks:
+      - rabbitmq_go_net
+
+  # PAYMENT SERVICE
+  payment:
+    build:
+      context: .
+      dockerfile: ./apps/payment/Dockerfile
+      target: development
+    command: nx serve payment --watch
+    ports:
+      - '3003:3003'
+    volumes:
+      - .:/usr/src/app
+    networks:
+      - rabbitmq_go_net
+
+  #RABBITMQ
+  rabbitmq:
+    extends:
+      file: ./libs/rabbit-mq/docker-compose.yml
+      service: rabbitmq
+    networks:
+      - rabbitmq_go_net
+
+  #REDIS
+  redis:
+    extends:
+      file: ./libs/auth/docker-compose.yml
+      service: redis
+    networks:
+      - rabbitmq_go_net
+
+  # MONGODB ORDER SERVICE
+  mongo_order:
+    image: mongo:6.0
+    container_name: mongo_order
+    command: mongod --port 27018
+    ports:
+      - '27018:27018'
+    volumes:
+      - mongo_order_data:/data/db
+    env_file:
+      - ./envs/.order.env
+    networks:
+      - rabbitmq_go_net
+
+  # MONGODB ACCOUNT SERVICE
+  mongo_account:
+    image: mongo:6.0
+    container_name: mongo_account
+    command: mongod --port 27017
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_account_data:/data/db
+    env_file:
+      - ./envs/.account.env
+    networks:
+      - rabbitmq_go_net
+
+networks:
+  rabbitmq_go_net:
+    driver: bridge
+
+volumes:
+  redis_data:
+  mongo_order_data:
+  mongo_account_data:
