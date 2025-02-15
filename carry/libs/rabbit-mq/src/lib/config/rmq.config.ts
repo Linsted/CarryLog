@@ -4,7 +4,7 @@ export function getRmqConfig(): string {
   const user = process.env.RMQ_USER || '';
   const password = process.env.RMQ_PASSWORD || '';
   const host = process.env.RMQ_HOST || '';
-  const port = process.env.RMQ_PORT || '';
+  const port = process.env.RMQ_PORT_CARRY || '';
 
   return `amqp://${user}:${password}@${host}:${port}`;
 }
